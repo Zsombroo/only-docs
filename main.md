@@ -1,5 +1,11 @@
 # Fedora Server
 
+## SSH key setup on a remote system
+
+```
+ssh-copy-id -i ~/.ssh/id_ed25519.pub username@remote_server_ip
+```
+
 ## Extend the filesystem to the fill disk
 
 Find the root filesystem's path. Look for whatever is mounted on /
@@ -59,7 +65,11 @@ AllowedIPs = 10.10.0.2/32
 ### End Paste
 
 systemctl enable wg-quick@wg0 --now
-sudo systemctl restart wg-quick@wg0
+systemctl restart wg-quick@wg0
+
+firewall-cmd --permanent --add-port=51820/udp
+firewall-cmd --zone=trusted --add-interface=wg0 --permanent
+firewall-cmd --reload
 ```
 
 ### As a Peer
